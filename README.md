@@ -1,7 +1,3 @@
-# 2021-ns-public-Itzhakrees
+# chapter0x05
 
-* 2021 网络安全课程公开仓库
-
-- [x] exp01: 基于 VirtualBox 的网络攻防基础环境搭建
-
-- [x] exp04: 网络拓扑实验
+使用scapy进行主机扫描实验
