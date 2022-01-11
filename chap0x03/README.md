@@ -32,7 +32,7 @@ sudo vim /etc/tinyproxy/tinyproxy.conf
 
 因为此处我选择的连接代理的方式是我的NAT网卡 **(其IP为10.0.2.15) ** ,因此我取消了10.0.0.0/8这一网段的注释
 
-![change-config](D:\Code\Net_Security\chap0x03\img\change-config.png)
+![change-config](img/change-config.png)
 
 然后开启tinyproxy服务:
 
@@ -41,7 +41,7 @@ sudo systemctl start tinyproxy && sudo systemctl status tinyproxy
 # 如果是kali则可以不使用sudo,因为kali会自动询问密码
 ```
 
-![tinyproxy-on](D:\Code\Net_Security\chap0x03\img\tinyproxy-on.png)
+![tinyproxy-on](img/tinyproxy-on.png)
 
 
 
@@ -49,7 +49,7 @@ sudo systemctl start tinyproxy && sudo systemctl status tinyproxy
 
 设置虚拟机的网卡为NAT网卡设置端口转发, 默认tinyproxy监听8888端口:
 
-![net-setting](D:\Code\Net_Security\chap0x03\img\net-setting.png)
+![net-setting](img/net-setting.png)
 
 
 
@@ -59,11 +59,11 @@ sudo systemctl start tinyproxy && sudo systemctl status tinyproxy
 
 下载完成后在chrome的扩展程序中,点击SwitchyOmega设置代理信息:
 
-![proxy](D:\Code\Net_Security\chap0x03\img\proxy.png)
+![proxy]img/proxy.png)
 
 点左侧 `应用选项` 保存设置, 并启用SwitchyOmega
 
-![proxy-on](D:\Code\Net_Security\chap0x03\img\proxy-on.png)
+![proxy-on](img/proxy-on.png)
 
 代理服务器设置完成.
 
@@ -75,17 +75,17 @@ sudo systemctl start tinyproxy && sudo systemctl status tinyproxy
 
 **(1)对 `eth0` 抓取的流量使用 `http.request.method eq CONNECT 查看所有HTTPS代理请求`**
 
-![http](D:\Code\Net_Security\chap0x03\img\http.png)
+![http](img/http.png)
 
 对我们代理服务器获取的包进行follow:
 
-![follow-http](D:\Code\Net_Security\chap0x03\img\follow-http.png)
+![follow-http](img/follow-http.png)
 
 追踪http流发现，访问bilibili时使用的最初并不是https协议，而是http,而且其中的内容几乎完全透明.
 
 **(2)对 `eth0` 抓取的流量使用 `http.request.method eq GET 查看所有HTTP GET代理请求`**
 
-![no-get](D:\Code\Net_Security\chap0x03\img\no-get.png)
+![no-get](img/no-get.png)
 
 很奇怪,抓了三次都没有一个get包, 我甚至开着代理看了俩视频了
 
@@ -95,17 +95,17 @@ sudo systemctl start tinyproxy && sudo systemctl status tinyproxy
 
 - wireshark首选项中确认TCP协议的Allow subdissector to reassemble TCP streams选项处于启用状态
 
-  ![ssl-1](D:\Code\Net_Security\chap0x03\img\ssl-1.png)
+  ![ssl-1](img/ssl-1.png)
 
 - 通过显示筛选过滤规则（例如：tcp.port == 443），找到SSL会话
 
-- ![ssl-2](D:\Code\Net_Security\chap0x03\img\ssl-2.png)
+- ![ssl-2](img/ssl-2.png)
 
 - 通过packet list里的info列找到Certificate
 
   - 在packet details面板里依次展开Handshake Protocol: Certificate --> Certificates，如果有多个证书，会看到多个默认折叠起来的Certificate
 
-    ![ssl-3](D:\Code\Net_Security\chap0x03\img\ssl-3.png)
+    ![ssl-3](img/ssl-3.png)
 
   - 右键选中Certificate，在右键菜单里使用Export Selected Packet Bytes功能即可导出DER格式的[SSL证书](/packets/certificate.der)
 
